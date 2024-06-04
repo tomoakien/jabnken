@@ -32,18 +32,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String myJankenText = '👊';
-  String computerJankenText = '👊';
-
-  List<String> jankenList = ['👊', '✌️', '✋'];
+  String myJankenText = Hand.rock.text;
+  String computerJankenText = Hand.rock.text;
 
   void chooseComputerText() {
     final random = Random();
     final randomNumber = random.nextInt(3);
-    final hand = jankenList[randomNumber];
+    final hand = Hand.values[randomNumber]; //enumになった
 
     setState(() {
-      computerJankenText = hand;
+      computerJankenText = hand.text; //hand型をStringに変換
     });
   }
 
@@ -86,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  myJankenText = '👊';
+                  myJankenText = Hand.rock.text;
                 });
                 chooseComputerText();
               },
@@ -101,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  myJankenText = '✌️';
+                  myJankenText = Hand.scissors.text;
                 });
                 chooseComputerText();
               },
@@ -116,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  myJankenText = '✋';
+                  myJankenText = Hand.paper.text;
                 });
                 chooseComputerText();
               },
@@ -130,5 +128,22 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ));
+  }
+}
+
+enum Hand {
+  rock,
+  scissors,
+  paper; //最後の項目だけ,じゃなくて;なことに注意
+
+  String get text {
+    switch (this) {
+      case Hand.rock:
+        return '👊';
+      case Hand.scissors:
+        return '✌️';
+      case Hand.paper:
+        return '✋';
+    }
   }
 }
