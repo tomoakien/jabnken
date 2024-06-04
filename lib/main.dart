@@ -70,6 +70,14 @@ class _StartDisplayState extends State<StartDisplay> {
     });
   }
 
+  void resetHandandResult() {
+    setState(() {
+      myHand = null;
+      computerHand = null;
+      result = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,6 +121,18 @@ class _StartDisplayState extends State<StartDisplay> {
         floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            FloatingActionButton(
+              onPressed: () {
+                resetHandandResult();
+              },
+              child: const Text(
+                'reset',
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            const SizedBox(
+              width: 100,
+            ),
             FloatingActionButton(
               onPressed: () {
                 setState(() {
