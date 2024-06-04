@@ -17,23 +17,24 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const StartDisplay(title: 'jyanken start Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class StartDisplay extends StatefulWidget {
+  const StartDisplay({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<StartDisplay> createState() => _StartDisplayState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  String myJankenText = Hand.rock.text;
-  String computerJankenText = Hand.rock.text;
+class _StartDisplayState extends State<StartDisplay> {
+  Hand? myHand;
+  Hand? computerHand;
+  Result? result;
 
   void chooseComputerText() {
     final random = Random();
@@ -41,7 +42,31 @@ class _MyHomePageState extends State<MyHomePage> {
     final hand = Hand.values[randomNumber]; //enumになった
 
     setState(() {
-      computerJankenText = hand.text; //hand型をStringに変換
+      computerHand = hand; //hand型をStringに変換
+    });
+    decideResult(); //勝敗の処理
+  }
+
+  void decideResult() {
+    //ジャンケンの結果を処理
+    if (myHand == null || computerHand == null) {
+      return; //
+    }
+    final Result result;
+
+    if (myHand == computerHand) {
+      result = Result.draw;
+    } else if (myHand == Hand.rock && computerHand == Hand.scissors) {
+      result = Result.win;
+    } else if (myHand == Hand.scissors && computerHand == Hand.paper) {
+      result = Result.win;
+    } else if (myHand == Hand.paper && computerHand == Hand.rock) {
+      result = Result.win;
+    } else {
+      result = Result.lose;
+    }
+    setState(() {
+      this.result = result;
     });
   }
 
@@ -61,8 +86,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 30),
               ),
               Text(
-                computerJankenText,
+                computerHand?.text ?? '?',
                 style: TextStyle(fontSize: 100),
+              ),
+              SizedBox(
+                height: 80,
+              ),
+              Text(
+                result?.text ?? '?',
+                style: TextStyle(fontSize: 50),
               ),
               SizedBox(
                 height: 80,
@@ -72,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 30),
               ),
               Text(
-                myJankenText,
-                style: TextStyle(fontSize: 200),
+                myHand?.text ?? '?',
+                style: TextStyle(fontSize: 100),
               ),
             ],
           ),
@@ -84,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  myJankenText = Hand.rock.text;
+                  myHand = Hand.rock;
                 });
                 chooseComputerText();
               },
@@ -99,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  myJankenText = Hand.scissors.text;
+                  myHand = Hand.scissors;
                 });
                 chooseComputerText();
               },
@@ -114,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  myJankenText = Hand.paper.text;
+                  myHand = Hand.paper;
                 });
                 chooseComputerText();
               },
@@ -144,6 +176,23 @@ enum Hand {
         return '✌️';
       case Hand.paper:
         return '✋';
+    }
+  }
+}
+
+enum Result {
+  win,
+  lose,
+  draw;
+
+  String get text {
+    switch (this) {
+      case Result.win:
+        return '勝ち';
+      case Result.lose:
+        return '負け';
+      case Result.draw:
+        return 'あいこ';
     }
   }
 }
