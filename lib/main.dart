@@ -37,6 +37,7 @@ class _StartDisplayState extends State<StartDisplay> {
   Hand? myHand;
   Hand? computerHand;
   Result? result;
+  List<String> results = [];
 
   void chooseComputerText() {
     final random = Random();
@@ -58,14 +59,19 @@ class _StartDisplayState extends State<StartDisplay> {
 
     if (myHand == computerHand) {
       result = Result.draw;
+      results.add('🔺draw');
     } else if (myHand == Hand.rock && computerHand == Hand.scissors) {
       result = Result.win;
+      results.add('⭕️win');
     } else if (myHand == Hand.scissors && computerHand == Hand.paper) {
       result = Result.win;
+      results.add('⭕️win');
     } else if (myHand == Hand.paper && computerHand == Hand.rock) {
       result = Result.win;
+      results.add('⭕️win');
     } else {
       result = Result.lose;
+      results.add('❌lose');
     }
     setState(() {
       this.result = result;
@@ -127,7 +133,7 @@ class _StartDisplayState extends State<StartDisplay> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ResultPage()),
+                  MaterialPageRoute(builder: (context) => ResultPage(results)),
                 );
               },
               child: const Text(
