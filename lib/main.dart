@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'result_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -123,6 +125,21 @@ class _StartDisplayState extends State<StartDisplay> {
           children: [
             FloatingActionButton(
               onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ResultPage()),
+                );
+              },
+              child: const Text(
+                'result',
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            const SizedBox(
+              width: 16,
+            ),
+            FloatingActionButton(
+              onPressed: () {
                 resetHandandResult();
               },
               child: const Text(
@@ -131,7 +148,7 @@ class _StartDisplayState extends State<StartDisplay> {
               ),
             ),
             const SizedBox(
-              width: 100,
+              width: 50,
             ),
             FloatingActionButton(
               onPressed: () {
